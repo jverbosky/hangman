@@ -88,6 +88,17 @@ def hangman(count)
   end
 end
 
+# Method that checks to see if letter is in the mystery word
+def letter_test(letter)
+  if $word.include? letter  # If it is in the word, pass it to the location_test method
+    puts "Yes, letter is in word."
+    #location_test(letter)
+  else  # If it is not in the word, pass it to the wrong_letter method
+    puts "No, letter is not in word."
+    #wrong_letter(letter)
+  end
+end
+
 # Method that checks the user-specified letter for a few things
 def good_letter(letter)
   system("cls")  # start by clearing the screen
@@ -96,8 +107,9 @@ def good_letter(letter)
     user_input()
   elsif letter[/[a-zA-Z]+/] and letter.length == 1  # check is a single -letter- has been entered
     $bucket.push(letter)  # if so, add it to the bucket list
+    puts "Word: #{$word}"
     puts "Bucket: #{$bucket}"
-    #letter_test(a)  # then pass it to the letter_test method
+    letter_test(letter)  # then pass it to the letter_test method
   else  # if multiple letters, non-alpha characters or nothing has been entered
     puts "  Enter a single letter - TRY AGAIN!"  # reprompt user to try again
     user_input()
