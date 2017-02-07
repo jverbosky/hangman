@@ -13,11 +13,11 @@
 ###############################################################################
 
 # Load Win32API class if running on Windows - use with getkey()
-$use_stty = begin  # check the terminal and see if Win32API is accessible
-  require 'Win32API'  # if so, load Win32API class
-  false
-rescue LoadError  # if not, use the Unix way
-  true
+$use_stty = begin  # check the current terminal session
+  require 'Win32API'  # load the Win32API class for Windows systems
+  false  # if this succeeds, the system is Windows so return false
+rescue LoadError  # if this fails, the system is Unix
+  true  # so return true and use Unix commands
 end
 
 # array of mystery words
@@ -34,16 +34,16 @@ $games_lost = 0  # counter for games lost
 
 # Method to clear the screen regardless of OS
 def clear_screen()
-  if $use_stty
-    system("clear")
-  else
-    system("cls")
+  if $use_stty  # if system is Unix
+    system("clear")  # use the "clear" command to clear the screen
+  else  # otherwise system is Windows
+    system("cls")  # so use the "cls" command to clear the screen
   end
 end
 
-# Method to handle margins
+# Method to make tweaking margins easier
 def margin(number)
-  number.times { puts "\n" }
+  number.times { puts "\n" }  # output a blank line "number" of times
 end
 
 # Method to display the cumulative score of games won and lost
@@ -221,12 +221,12 @@ end
 
 # Method to return the ASCII code last key pressed, or nil if none
 def getkey()
-  if $use_stty
-    system('stty raw -echo') # raw mode, no echo
+  if $use_stty  # if system is Unix
+    system('stty raw -echo') # use raw mode, no echo
     character = (STDIN.read_nonblock(1).ord rescue nil)
     system('stty -raw echo') # reset terminal mode
     return character
-  else
+  else  # otherwise use Win32API class methods for Windows system
     return Win32API.new('crtdll', '_kbhit', [ ], 'I').Call.zero? ? nil : Win32API.new('crtdll', '_getch', [ ], 'L').Call
   end
 end
