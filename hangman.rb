@@ -88,11 +88,19 @@ def hangman(count)
   end
 end
 
+# Method that checks to see where letter occurs
+def location_test(letter)
+  letter_index = $word.index(letter)  # assign the numerical position of the letter to letter_index
+  $build_word[letter_index] = letter  # replace the appropriate placeholder underscore in build_word with letter
+  p $build_word
+  # word_test(word)  # next run the word_test method
+end
+
 # Method that checks to see if letter is in the mystery word
 def letter_test(letter)
   if $word.include? letter  # If it is in the word, pass it to the location_test method
     puts "Yes, letter is in word."
-    #location_test(letter)
+    location_test(letter)
   else  # If it is not in the word, pass it to the wrong_letter method
     puts "No, letter is not in word."
     #wrong_letter(letter)
@@ -134,3 +142,4 @@ def start_game(word)
 end
 
 start_game($word)
+
