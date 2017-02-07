@@ -112,16 +112,12 @@ end
 
 # Method to run when the user correctly guesses the word
 def winner()
-  puts "\n"
-  puts "\n     ---CONGRATULATIONS---"
-  puts "\n"
-  puts "\n      YOU WON THE GAME!!!"
-  puts "\n"
-  puts "\n  \\O/   \\O_  \\O/  _O/   \\O/ "
+  puts "\n\n     ---CONGRATULATIONS---"
+  puts "\n\n      YOU WON THE GAME!!!"
+  puts "\n\n  \\O/   \\O_  \\O/  _O/   \\O/ "
   puts "   |   _/     |     \\_   |  "
   puts "  / \\   |    / \\    |   / \\ "
-  puts "\n"
-  puts "\n  Word:     " + $build_word.join(" ")  # list mystery word and letters so user can see progress
+  puts "\n\n  Word:     " + $build_word.join(" ")  # list mystery word and letters so user can see progress
   puts "\n  Letters:  " + $bucket.join(" ")
   4.times { puts "\n" }
 end
