@@ -4,6 +4,9 @@
 ##################### Re-imagined in Ruby (2017-02-07) ####################
 ###########################################################################
 
+# Initial attempt will be 1-to-1 conversion
+# Will refactor using TDD after conversion
+
 # Array of mystery words
 words = ["fish", "dogs", "cats", "mice", "bats", "pigs", "bird", "goat", "rock", "frog", "cows", "bull"]
 $word = words.sample  # Select a random word from the words array
@@ -74,7 +77,7 @@ def hangman(count)
     2.times { puts "       |" }
     puts "   ____|____"
     2.times { puts "\n" }
-  elsif count == 9
+  else
     2.times { puts "\n" }
     puts "        ______"
     2.times { puts "       |      |" }
