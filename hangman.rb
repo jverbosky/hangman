@@ -50,6 +50,7 @@ def letters()
   puts "  Word:     " + $build_word.join(" ")  # display the correctly guessed letters and placeholders
   margin(1)
   puts "  Letters:  " + $bucket.join(" ")  # display all of the guessed letters
+  margin(2)
 end
 
 # Method to start the game
@@ -64,7 +65,6 @@ def user_input()
   score()  # display the cumulative score
   hangman($wrong_count.length)  # display the current progressive hangman "image" based on wrong guesses
   letters()  # display the correctly guessed letters and placeholders
-  margin(2)
   print "  Please enter a letter: "  # prompt the user for a letter
   letter = gets.chomp  # assign the letter to a variable
   good_letter(letter)  # pass the user-specified letter to good_letter()
@@ -87,7 +87,7 @@ end
 
 # Method that checks to see if letter is in the mystery word
 def letter_test(letter)
-  if $word.include? letter  # If it is in the word, pass it to location_test()
+  if $word.include? letter  # If it is in the word, pass it to find_locations()
     find_locations(letter)
   else  # If it is not in the word, pass it to wrong_letter()
     wrong_letter(letter)
@@ -118,7 +118,6 @@ end
 # Method to compare the current build_word array against the mystery word
 def word_test()
   if $build_word.join == $word  # if $build_word equals $word, the user won
-    # puts "Winner!"  # testing comment
     $games_won += 1  # so increase the games_won score by 1
     winner(1)  # and start winner() on frame 1 (animation count 1)
   else  # if they don't match, run user_input() for another letter
@@ -130,7 +129,6 @@ end
 def wrong_letter(letter)
   if $wrong_count.length < 9  # if the wrong_count list has less than 9 letters
     $wrong_count.push(letter)  # then add the letter to the list
-    # puts "Contents of wrong_count array: #{$wrong_count}"  # testing comment
     user_input()  # run user_input() again
   else  # if this is the tenth wrong letter, it's game over
     $games_lost += 1  # so increase the games_lost score by 1
@@ -268,12 +266,9 @@ def winner(ani_count)
     puts "   / \\    |    / \\    |    / \\ "
     margin(2)
     letters()
-    margin(2)
     puts " - Press any key to play again or Esc to quit -"
     sleep(0.5)  # wait 1/2 second for smooth animation
-    #Run the game_over function to see if user
-    # has pressed a key
-    game_over(2)
+    game_over(2)  # run the game_over function to see if user has pressed a key
   elsif ani_count == 2  # winner animation frame 2
     score()
     congratulations()
@@ -282,7 +277,6 @@ def winner(ani_count)
     puts "    |    / \\    |    / \\    |   "
     margin(2)
     letters()
-    margin(2)
     puts " \\ Press any key to play again or Esc to quit \\"
     sleep(0.5)
     game_over(3)
@@ -294,7 +288,6 @@ def winner(ani_count)
     puts "   / \\    |    / \\    |    / \\ "
     margin(2)
     letters()
-    margin(2)
     puts " | Press any key to play again or Esc to quit |"
     sleep(0.5)
     game_over(4)
@@ -306,14 +299,13 @@ def winner(ani_count)
     puts "    |    / \\    |    / \\    |  "
     margin(2)
     letters()
-    margin(2)
     puts " / Press any key to play again or Esc to quit /"
     sleep(0.5)
     game_over(1)
   end
 end
 
-# Method to print repetitive game over text in loser() animations
+# Method to print repetitive game over text in loser() animation
 def sorry()
   margin(1)
   puts "  SORRY - GAME OVER!"
@@ -334,10 +326,9 @@ def loser(ani_count)
     puts "   ____|____"
     sorry()
     letters()
-    margin(2)
     puts " - Press any key to play again or Esc to quit -"
     sleep(0.5)
-    game_over(6)
+    game_over(6)  # run the game_over function to see if user has pressed a key
   elsif ani_count == 6  #loser animation frame 2
     score()
     margin(1)
@@ -350,7 +341,6 @@ def loser(ani_count)
     puts "   ____|____"
     sorry()
     letters()
-    margin(2)
     puts " \\ Press any key to play again or Esc to quit \\"
     sleep(0.5)
     game_over(7)
@@ -366,7 +356,6 @@ def loser(ani_count)
     puts "   ____|____"
     sorry()
     letters()
-    margin(2)
     puts " | Press any key to play again or Esc to quit |"
     sleep(0.5)
     game_over(8)
@@ -382,7 +371,6 @@ def loser(ani_count)
     puts "   ____|____"
     sorry()
     letters()
-    margin(2)
     puts " / Press any key to play again or Esc to quit /"
     sleep(0.5)
     game_over(5)
