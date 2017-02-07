@@ -92,7 +92,7 @@ end
 def wrong_letter(letter)
   if $wrong_count.length < 9  # if the wrong_count list has less than 9 letters
     $wrong_count.push(letter)  # then add the letter to the list
-    puts "Contents of wrong_count array: #{$wrong_count}"
+    # puts "Contents of wrong_count array: #{$wrong_count}"  # testing comment
     user_input()  # run the user_input method again
   else  # if this is the tenth wrong letter, it's game over
     2.times { puts "\n" }
@@ -110,11 +110,27 @@ def wrong_letter(letter)
   end
 end
 
+# Method to run when the user correctly guesses the word
+def winner()
+  puts "\n"
+  puts "\n     ---CONGRATULATIONS---"
+  puts "\n"
+  puts "\n      YOU WON THE GAME!!!"
+  puts "\n"
+  puts "\n  \\O/   \\O_  \\O/  _O/   \\O/ "
+  puts "   |   _/     |     \\_   |  "
+  puts "  / \\   |    / \\    |   / \\ "
+  puts "\n"
+  puts "\n  Word:     " + $build_word.join(" ")  # list mystery word and letters so user can see progress
+  puts "\n  Letters:  " + $bucket.join(" ")
+  4.times { puts "\n" }
+end
+
 # Method to compare the current build_word array against the mystery word
 def word_test()
-  if $build_word.join == $word  # if $build_word equals $word, run the winner() function
-    puts "Winner!"
-    #winner()
+  if $build_word.join == $word  # if $build_word equals $word, run the winner() method
+    # puts "Winner!"  # testing comment
+    winner()
   else  # if they don't match, run user_input() for another letter
     user_input()
   end
@@ -130,10 +146,10 @@ end
 # Method that checks to see if letter is in the mystery word
 def letter_test(letter)
   if $word.include? letter  # If it is in the word, pass it to the location_test method
-    puts "Yes, letter is in word."
+    # puts "Yes, letter is in word."  # testing comment
     location_test(letter)
   else  # If it is not in the word, pass it to the wrong_letter method
-    puts "No, letter is not in word."
+    # puts "No, letter is not in word."  # testing comment
     wrong_letter(letter)
   end
 end
@@ -146,8 +162,8 @@ def good_letter(letter)
     user_input()
   elsif letter[/[a-zA-Z]+/] and letter.length == 1  # check is a single -letter- has been entered
     $bucket.push(letter)  # if so, add it to the bucket list
-    puts "Word: #{$word}"
-    puts "Bucket: #{$bucket}"
+    # puts "Word: #{$word}"  # testing comment
+    # puts "Bucket: #{$bucket}"  # testing comment
     letter_test(letter)  # then pass it to the letter_test method
   else  # if multiple letters, non-alpha characters or nothing has been entered
     puts "  Enter a single letter - TRY AGAIN!"  # reprompt user to try again
