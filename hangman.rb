@@ -88,6 +88,28 @@ def hangman(count)
   end
 end
 
+# Method that receives non-mystery word letter and adds it to the wrong_count array
+def wrong_letter(letter)
+  if $wrong_count.length < 9  # if the wrong_count list has less than 9 letters
+    $wrong_count.push(letter)  # then add the letter to the list
+    puts "Contents of wrong_count array: #{$wrong_count}"
+    user_input()  # run the user_input method again
+  else  # if this is the tenth wrong letter, it's game over
+    2.times { puts "\n" }
+    puts "        ______"
+    2.times { puts "       |      |" }
+    puts "       |      O"
+    puts "       |     /|\\"
+    puts "       |     / \\"
+    puts "       |"
+    puts "   ____|____"
+    puts "\n  SORRY - GAME OVER!"
+    puts "\n  Word:     " + $build_word.join(" ")  # list mystery word and letters so user can see progress
+    puts "\n  Letters:  " + $bucket.join(" ")
+    4.times { puts "\n" }
+  end
+end
+
 # Method that checks to see where letter occurs
 def location_test(letter)
   letter_index = $word.index(letter)  # assign the numerical position of the letter to letter_index
@@ -103,7 +125,7 @@ def letter_test(letter)
     location_test(letter)
   else  # If it is not in the word, pass it to the wrong_letter method
     puts "No, letter is not in word."
-    #wrong_letter(letter)
+    wrong_letter(letter)
   end
 end
 
@@ -142,4 +164,3 @@ def start_game(word)
 end
 
 start_game($word)
-
