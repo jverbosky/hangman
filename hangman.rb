@@ -8,7 +8,7 @@
 # Will refactor using TDD after conversion - particularly method calls
 
 # array of mystery words
-words = ["fish", "dogs", "cats", "mice", "bats", "pigs", "bird", "goat", "rock", "frog", "cows", "bull"]
+words = ["research", "persistence", "dedication", "curiosity", "troubleshoot", "energetic", "organization", "communication", "development", "loyalty"]
 $word = words.sample  # select a random word from the words array
 $bucket = []  # array to hold all letters that have been entered to guess
 $build_word = []  # array to hold guessed letters that are found in mystery word
@@ -93,7 +93,7 @@ def wrong_letter(letter)
   if $wrong_count.length < 9  # if the wrong_count list has less than 9 letters
     $wrong_count.push(letter)  # then add the letter to the list
     # puts "Contents of wrong_count array: #{$wrong_count}"  # testing comment
-    user_input()  # run the user_input method again
+    user_input()  # run user_input() again
   else  # if this is the tenth wrong letter, it's game over
     2.times { puts "\n" }
     puts "        ______"
@@ -124,7 +124,7 @@ end
 
 # Method to compare the current build_word array against the mystery word
 def word_test()
-  if $build_word.join == $word  # if $build_word equals $word, run the winner() method
+  if $build_word.join == $word  # if $build_word equals $word, run winner()
     # puts "Winner!"  # testing comment
     winner()
   else  # if they don't match, run user_input() for another letter
@@ -132,19 +132,33 @@ def word_test()
   end
 end
 
-# Method that checks to see where letter occurs
-def location_test(letter)
-  letter_index = $word.index(letter)  # assign the numerical position of the letter to letter_index
-  $build_word[letter_index] = letter  # replace the appropriate placeholder underscore in build_word with letter
-  word_test()  # next run the word_test method
+# Method to populate $build_word with every occurrence of a letter
+def add_letter(letter, locations)
+  locations.each do |location|  # for each occurrence of a letter
+    $build_word[location] = letter  # add the letter to the correct location in $build-word
+  end
+  word_test()  # then run word_test()
+end
+
+# Method that finds all locations of a letter in the word
+def find_locations(letter)
+  locations = []  # array for the index (position) of all instances of the letter in the word
+  last_index = 0  # dual-purpose variable that holds the index (position) of the letter and the .index offset
+  occurrences = $word.count letter  # variable used to control do loop iteration count
+  occurrences.times do  # for every occurrence of the letter in the word
+    last_index = $word.index(letter, last_index)  # determine the position of the letter in the word
+    locations.push(last_index)  # push the position of the letter to the location array
+    last_index += 1  # increment last_index by 1 to target the next occurrence of the letter (via .index offset)
+  end
+  add_letter(letter, locations)  # pass the user-specified letter and array of locations to add_letter()
 end
 
 # Method that checks to see if letter is in the mystery word
 def letter_test(letter)
-  if $word.include? letter  # If it is in the word, pass it to the location_test method
+  if $word.include? letter  # If it is in the word, pass it to location_test()
     # puts "Yes, letter is in word."  # testing comment
-    location_test(letter)
-  else  # If it is not in the word, pass it to the wrong_letter method
+    find_locations(letter)
+  else  # If it is not in the word, pass it to wrong_letter()
     # puts "No, letter is not in word."  # testing comment
     wrong_letter(letter)
   end
@@ -160,7 +174,7 @@ def good_letter(letter)
     $bucket.push(letter)  # if so, add it to the bucket list
     # puts "Word: #{$word}"  # testing comment
     # puts "Bucket: #{$bucket}"  # testing comment
-    letter_test(letter)  # then pass it to the letter_test method
+    letter_test(letter)  # then pass it to letter_test()
   else  # if multiple letters, non-alpha characters or nothing has been entered
     puts "  Enter a single letter - TRY AGAIN!"  # reprompt user to try again
     user_input()
@@ -174,14 +188,14 @@ def user_input()
   puts "\n  Letters:  " + $bucket.join(" ")  # display all of the guessed letters
   print "\n  Please enter a letter: "  # prompt the user for a letter
   letter = gets.chomp  # assign the letter to a variable
-  good_letter(letter)  # pass the user-specified letter to the good_letter method
+  good_letter(letter)  # pass the user-specified letter to good_letter()
 end
 
 # Method to start the game
 def start_game(word)
   system("cls")  # Clear the screen
   $word.length.times { $build_word.push("_") }  # Populate the build_word list with an underscore for each letter in the mystery word
-  user_input()  #Run the user_input method to display the main "UI"
+  user_input()  #Run user_input() to display the main "UI"
 end
 
 start_game($word)
