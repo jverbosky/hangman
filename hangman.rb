@@ -5,21 +5,19 @@
 ###########################################################################
 
 # Initial attempt will be 1-to-1 conversion
-# Will refactor using TDD after conversion
+# Will refactor using TDD after conversion - particularly method calls
 
-# Array of mystery words
+# array of mystery words
 words = ["fish", "dogs", "cats", "mice", "bats", "pigs", "bird", "goat", "rock", "frog", "cows", "bull"]
-$word = words.sample  # Select a random word from the words array
-$bucket = []  # List to hold all letters that have been entered to guess
-$build_word = []  # List to hold guessed letters that are found in mystery word
-$wrong_count = []  # List to hold guessed letters that are not found in mystery word
+$word = words.sample  # select a random word from the words array
+$bucket = []  # array to hold all letters that have been entered to guess
+$build_word = []  # array to hold guessed letters that are found in mystery word
+$wrong_count = []  # array to hold guessed letters that are not found in mystery word
 
 # Method to progressively draw the hangman stages as incorrect letters are guessed
 def hangman(count)
   if count == 0
     12.times { puts "\n" }
-    # for x in range(12):
-    #   print(" ")
   elsif count == 1
     9.times { puts "\n" }
     puts "   _________"
@@ -90,26 +88,37 @@ def hangman(count)
   end
 end
 
-# Method that acts as primary starting/return point for other functions
+# Method that checks the user-specified letter for a few things
+def good_letter(letter)
+  system("cls")  # start by clearing the screen
+  if $bucket.include? letter  # check to see if letter has already been guessed and reprompt if so
+    puts "  You already guessed that one - TRY AGAIN!"
+    user_input()
+  elsif letter[/[a-zA-Z]+/] and letter.length == 1  # check is a single -letter- has been entered
+    $bucket.push(letter)  # if so, add it to the bucket list
+    puts "Bucket: #{$bucket}"
+    #letter_test(a)  # then pass it to the letter_test method
+  else  # if multiple letters, non-alpha characters or nothing has been entered
+    puts "  Enter a single letter - TRY AGAIN!"  # reprompt user to try again
+    user_input()
+  end
+end
+
+# Method that acts as primary starting/return point for other methods
 def user_input()
-  #Display the current progressive hangman "image" based on wrong guesses
-  hangman($wrong_count.length)
-  puts "\n  Word:     " + $build_word.join(" ")  # Display the correctly guessed letters and placeholders
-  puts "\n  Letters:  " + $bucket.join(" ")  # Display all of the guessed letters
-  print "\n  Please enter a letter: "  # Prompt the user for a letter
-  letter = gets.chomp  # Assign the letter to a variable
-  puts letter
-  #Pass the user-specified letter to the good_letter function
-  #good_letter(letter)
+  hangman($wrong_count.length)  # display the current progressive hangman "image" based on wrong guesses
+  puts "\n  Word:     " + $build_word.join(" ")  # display the correctly guessed letters and placeholders
+  puts "\n  Letters:  " + $bucket.join(" ")  # display all of the guessed letters
+  print "\n  Please enter a letter: "  # prompt the user for a letter
+  letter = gets.chomp  # assign the letter to a variable
+  good_letter(letter)  # pass the user-specified letter to the good_letter method
 end
 
 # Method to start the game
 def start_game(word)
-  #system("cls")  # Clear the screen
-  # Populate the build_word list with an underscore for each letter in the mystery word
-  $word.length.times { $build_word.push("_") }
-  #Run the user_input function to display the main "UI"
-  user_input()
+  system("cls")  # Clear the screen
+  $word.length.times { $build_word.push("_") }  # Populate the build_word list with an underscore for each letter in the mystery word
+  user_input()  #Run the user_input method to display the main "UI"
 end
 
 start_game($word)
