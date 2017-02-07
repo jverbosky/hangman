@@ -110,12 +110,21 @@ def wrong_letter(letter)
   end
 end
 
+# Method to compare the current build_word array against the mystery word
+def word_test()
+  if $build_word.join == $word  # if $build_word equals $word, run the winner() function
+    puts "Winner!"
+    #winner()
+  else  # if they don't match, run user_input() for another letter
+    user_input()
+  end
+end
+
 # Method that checks to see where letter occurs
 def location_test(letter)
   letter_index = $word.index(letter)  # assign the numerical position of the letter to letter_index
   $build_word[letter_index] = letter  # replace the appropriate placeholder underscore in build_word with letter
-  p $build_word
-  # word_test(word)  # next run the word_test method
+  word_test()  # next run the word_test method
 end
 
 # Method that checks to see if letter is in the mystery word
