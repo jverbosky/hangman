@@ -32,6 +32,15 @@ $wrong_count = []  # array to hold guessed letters that are not found in mystery
 $games_won = 0  # counter for games won
 $games_lost = 0  # counter for games lost
 
+# Method to clear the screen regardless of OS
+def clear_screen()
+  if $use_stty
+    system("clear")
+  else
+    system("cls")
+  end
+end
+
 # Method to handle margins
 def margin(number)
   number.times { puts "\n" }
@@ -55,7 +64,7 @@ end
 
 # Method to start the game
 def start_game(word)
-  system("cls")  # Clear the screen
+  clear_screen()  # Clear the screen
   $word.length.times { $build_word.push("_") }  # Populate the build_word list with an underscore for each letter in the mystery word
   user_input()  #Run user_input() to display the main "UI"
 end
@@ -72,7 +81,7 @@ end
 
 # Method that checks the user-specified letter for a few things
 def good_letter(letter)
-  system("cls")  # start by clearing the screen
+  clear_screen()  # Clear the screen
   if $bucket.include? letter  # check to see if letter has already been guessed and reprompt if so
     puts "  You already guessed that one - TRY AGAIN!"
     user_input()
@@ -210,7 +219,7 @@ def hangman(count)
   end
 end
 
-# Return the ASCII code last key pressed, or nil if none
+# Method to return the ASCII code last key pressed, or nil if none
 def getkey()
   if $use_stty
     system('stty raw -echo') # raw mode, no echo
@@ -225,24 +234,21 @@ end
 # Method to handle endgame items (animations, start a new game, exit game) - runs after each animation frame
 def game_over(ani_count)
   key = getkey()  # variable for last key pressed
+  clear_screen()  # Clear the screen
   if key != nil  # check to see if a key was pressed during winner/loser animation
     if key != 27  # if the user presses any key except Esc (27)
-      system("cls")  # clear the screen
       $word = $words.sample  # select a new random word
       $bucket = []  # clear all global arrays
       $build_word = []
       $wrong_count = []
       start_game($word)  #  and start a new game
     elsif key == 27  # if the user presses the Esc key (27)
-      system("cls")  # clear the screen
       puts "Exiting game..."  # and exit the game
       margin(1)
     end
   elsif ani_count < 5  # if no keypress and animation count < 5
-    system("cls")  # clear the screen
     winner(ani_count)  # run winner() with the current animation count
   else  # if no keypress and animation count >= 5
-    system("cls")  # clear the screen
     loser(ani_count)  # run loser() with the current animation count
   end
 end
