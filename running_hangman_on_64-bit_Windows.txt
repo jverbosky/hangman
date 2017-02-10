@@ -1,0 +1,8 @@
+FWIW, if anyone wants to run the original hangman version on Windows x64 (which recognizes endgame keypresses much better), I figured out a way to do it:
+
+1) Install Ruby 32-bit (but do *NOT* add it to the path [environment variable] if you already have the Ruby 64-bit directory in the path).  On my Windows 7 x64 laptop, this installed to:  C:\Ruby23
+
+2) Browse to the directory where you have hangman.rb and use this command to run hangman using the 32-bit version of Ruby:
+         c:\ruby23\bin\ruby.exe hangman.rb
+
+The game runs as intended with 32-bit Ruby, but doesn't seem to like 64-bit Ruby.  This may be due to 64-bit file system redirection not working correctly for the Win32API class, but I still need to test further to verify.  In the meantime, here's a good workaround.
