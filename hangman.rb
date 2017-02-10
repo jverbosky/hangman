@@ -9,7 +9,10 @@
 # - ability to start a new game or exit after win/loss                        #
 # - cumulative score                                                          #
 ###############################################################################
-# 1-to-1 conversion - will refactor using TDD next, particularly method calls #
+# Note:                                                                       #
+# - runs correctly on Windows x86, Mac and Linux                              #
+# - does not work correctly on Windows with 64-bit Ruby                       #
+#   - run with 32-bit Ruby on 64-bit Windows (see notes)                      #
 ###############################################################################
 
 # Load Win32API class if running on Windows - use with getkey()
@@ -34,16 +37,12 @@ $games_lost = 0  # counter for games lost
 
 # Method to clear the screen regardless of OS
 def clear_screen()
-  if $use_stty  # if system is Unix
-    system("clear")  # use the "clear" command to clear the screen
-  else  # otherwise system is Windows
-    system("cls")  # so use the "cls" command to clear the screen
-  end
+  $use_stty ? system("clear") : system("cls")
 end
 
 # Method to make tweaking margins easier
 def margin(number)
-  number.times { puts "\n" }  # output a blank line "number" of times
+  puts "\n" * number  # output a blank line "number" of times
 end
 
 # Method to display the cumulative score of games won and lost
@@ -62,11 +61,16 @@ def letters()
   margin(2)
 end
 
-# Method to start the game
-def start_game(word)
-  clear_screen()  # Clear the screen
-  $word.length.times { $build_word.push("_") }  # Populate the build_word list with an underscore for each letter in the mystery word
-  user_input()  #Run user_input() to display the main "UI"
+# Method to initialize $build_word array with an underscore for every letter in $word
+def initialize_word()
+  $word.length.times { $build_word.push("_") }
+end
+
+# Method to start game
+def start_game()
+  initialize_word()
+  clear_screen()
+  user_input()
 end
 
 # Method that acts as primary starting/return point for other methods
@@ -96,11 +100,9 @@ end
 
 # Method that checks to see if letter is in the mystery word
 def letter_test(letter)
-  if $word.include? letter  # If it is in the word, pass it to find_locations()
-    find_locations(letter)
-  else  # If it is not in the word, pass it to wrong_letter()
-    wrong_letter(letter)
-  end
+  # If it is in the word pass it to find_locations(), if not pass it to wrong_letter()
+  $word.include?(letter) ? find_locations(letter) : wrong_letter(letter)
+  # $word.include?(letter)  # use for testing
 end
 
 # Method that finds all locations of a letter in the word
@@ -114,13 +116,13 @@ def find_locations(letter)
     last_index += 1  # increment last_index by 1 to target the next occurrence of the letter (via .index offset)
   end
   add_letter(letter, locations)  # pass the user-specified letter and array of locations to add_letter()
+  # return locations  # use for testing
 end
 
 # Method to populate $build_word with every occurrence of a letter
 def add_letter(letter, locations)
-  locations.each do |location|  # for each occurrence of a letter
-    $build_word[location] = letter  # add the letter to the correct location in $build-word
-  end
+  # for each occurrence of a letter, add the letter to the correct location in $build-word
+  locations.each { |location| $build_word[location] = letter }
   word_test()  # then run word_test()
 end
 
@@ -241,7 +243,7 @@ def game_over(ani_count)
       $bucket = []  # clear all global arrays
       $build_word = []
       $wrong_count = []
-      start_game($word)  #  and start a new game
+      start_game()  #  and start a new game
     elsif key == 27  # if the user presses the Esc key (27)
       puts "Exiting game..."  # and exit the game
       margin(1)
@@ -383,4 +385,4 @@ def loser(ani_count)
   end
 end
 
-start_game($word)
+start_game()  # Comment out for testing
