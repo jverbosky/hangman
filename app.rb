@@ -10,7 +10,8 @@ get '/' do  # route to load the ISBN Validator page
   @word = initialize_word()
   @current = current_word()
   @guessed = guessed_letters()
-  @wrong = 0
+  @wrong = wrong_count()
+  @image = hangman(@wrong)
   erb :start  # load play.erb file (mainly a placeholder, populated via layout.erb)
 end
 

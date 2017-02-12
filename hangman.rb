@@ -56,6 +56,10 @@ def wrong_letters()
   wrong = $wrong_count.join(" ")
 end
 
+def wrong_count()
+  return $wrong_count.length
+end
+
 # Method that acts as primary starting/return point for other methods
 def user_input(letter)
   hangman($wrong_count.length)  # display the current progressive hangman "image" based on wrong guesses
@@ -129,26 +133,27 @@ end
 # Method to progressively draw the hangman stages as incorrect letters are guessed
 def hangman(count)
   if count == 0
-    image = "wrong_0"
+    image = "/images/wrong_0.png"
   elsif count == 1
-    image = "wrong_1"
+    image = "/images/wrong_1.png"
   elsif count == 2
-    image = "wrong_2"
+    image = "/images/wrong_2.png"
   elsif count == 3
-    image = "wrong_3"
+    image = "/images/wrong_3.png"
   elsif count == 4
-    image = "wrong_4"
+    image = "/images/wrong_4.png"
   elsif count == 5
-    image = "wrong_5"
+    image = "/images/wrong_5.png"
   elsif count == 6
-    image = "wrong_6"
+    image = "/images/wrong_6.png"
   elsif count == 7
-    image = "wrong_7"
+    image = "/images/wrong_7.png"
   elsif count == 8
-    image = "wrong_8"
+    image = "/images/wrong_8.png"
   else
-    image = "wrong_9"
+    image = "/images/wrong_9.png"
   end
+  return image
 end
 
 # Method to display winner() animation
