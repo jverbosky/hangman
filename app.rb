@@ -10,6 +10,7 @@ get '/' do  # route to load the ISBN Validator page
   @word = initialize_word()  # just used for testing
   @current = current_word()
   @guessed = guessed_letters()
+  @bad_letters = wrong_letters()
   @wrong = wrong_count()
   @image = hangman(@wrong)
   erb :start  # load play.erb file (mainly a placeholder, populated via layout.erb)
@@ -22,6 +23,7 @@ post '/guess' do  # route that accesses input from form's post > action (line 24
   @status = good_letter(@letter)
   @current = current_word()
   @guessed = guessed_letters()
+  @bad_letters = wrong_letters()
   @wrong = wrong_count()
   @image = hangman(@wrong)
   # @status = is_too_small?(@num)  # ISBN validation status after evaluation via isbn_check.rb

@@ -141,18 +141,20 @@ def hangman(count)
     image = "/images/wrong_7.png"
   elsif count == 8
     image = "/images/wrong_8.png"
-  else
+  elsif count == 9
     image = "/images/wrong_9.png"
+  else
+    image = "/images/loser.gif"
   end
-  return image
+  #return image
 end
 
 # Method to display winner() animation
-def winner(ani_count)
+def winner()
   image = "winner"
 end
 
 # Method to display loser() animation
-def loser(ani_count)
-  image = "loser"
+def loser()
+  image = "/images/loser.gif"
 end
