@@ -1,0 +1,75 @@
+<!--
+/views/layout.erb
+- used to host common content for views
+-->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Hangman</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="/images/favicon.ico?" type="image/x-icon">  <!-- added to get favicon to load -->
+  </head>
+  <body>
+  <header>
+    <h1><%= @title %></h1>   <!-- instance variable for title -->
+  </header>
+  <section>
+
+    <div>
+      <p>Mystery word: <%= @word %></p>
+      <p>Current word: <%= @current %></p>
+      <p>Guessed letters: <%= @guessed %></p>
+    </div>
+
+<!--     <div class="row">
+      <div class="column">
+        <div>
+          <img src="/images/i.png" alt="Whoops - image failed to load...">
+        </div>
+      </div>
+      <div class="column">
+        <div>
+          <h3>Please submit a letter to guess:</h3>
+          <form method="post" action="guess">  # action ~ "post '/guess' do" in app.rb 
+            <input type="text" name="letter">  # text == string, name ~ "@num = params[:letter]" in app.rb 
+            <input type="submit">  # button to submit form data 
+          </form>
+        </div>
+      </div>
+    </div> -->
+    <%= yield %>  <!-- load unique content from other .erb files -->
+<!--     <div class="row">
+      <h3>Reference ISBN Numbers</h3>
+      <div class="red-background">
+        <table>
+          <tr>
+            <td><b>ISBN-10</b></td>
+            <td><b>ISBN-13</b></td>
+            <td><b>Invalid</b></td>
+          </tr>
+          <tr>
+            <td>0471958697</td>
+            <td>9780470059029</td>
+            <td>4780470059029</td>
+          </tr>
+          <tr>
+            <td>0-321-14653-0</td>
+            <td>978-0-13-149505-0</td>
+            <td>0-321@14653-0</td>
+          </tr>
+          <tr>
+            <td>877 1 95 869x</td>
+            <td>978 0 471 48648 0</td>
+            <td>877 1 95 x869</td>
+          </tr>
+        </table>
+      </div>
+    </div> -->
+    <div class="row">
+      <p style="position: fixed; bottom: 0; text-align: center">©2017 jverbosky</p>  <!-- copyright text -->
+    </div>
+  </section>
+  </body>
+</html>

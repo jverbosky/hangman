@@ -15,14 +15,6 @@
 #   - run with 32-bit Ruby on 64-bit Windows (see notes)                      #
 ###############################################################################
 
-# Load Win32API class if running on Windows - use with getkey()
-$use_stty = begin  # check the current terminal session
-  require 'Win32API'  # load the Win32API class for Windows systems
-  false  # if this succeeds, the system is Windows so return false
-rescue LoadError  # if this fails, the system is Unix
-  true  # so return true and use Unix commands
-end
-
 # array of mystery words
 $words = ["research", "persistence", "dedication", "curiosity", "troubleshoot", "energetic", "organization",
           "communication", "development", "loyalty", "adaptable", "creativity", "improvement", "dependable",
@@ -35,57 +27,41 @@ $wrong_count = []  # array to hold guessed letters that are not found in mystery
 $games_won = 0  # counter for games won
 $games_lost = 0  # counter for games lost
 
-# Method to clear the screen regardless of OS
-def clear_screen()
-  $use_stty ? system("clear") : system("cls")
-end
-
-# Method to make tweaking margins easier
-def margin(number)
-  puts "\n" * number  # output a blank line "number" of times
-end
-
-# Method to display the cumulative score of games won and lost
-def score()
-  margin(1)
-  puts "  Score"
-  puts "  -----"
-  puts "  Won: #{$games_won}    Lost: #{$games_lost}"
-end
-
-# Method to display guessed letters
-def letters()
-  puts "  Word:     " + $build_word.join(" ")  # display the correctly guessed letters and placeholders
-  margin(1)
-  puts "  Letters:  " + $bucket.join(" ")  # display all of the guessed letters
-  margin(2)
-end
+# # Method to display guessed letters
+# def letters()
+#   puts "  Word:     " + $build_word.join(" ")  # display the correctly guessed letters and placeholders
+#   margin(1)
+#   puts "  Letters:  " + $bucket.join(" ")  # display all of the guessed letters
+#   margin(2)
+# end
 
 # Method to initialize $build_word array with an underscore for every letter in $word
 def initialize_word()
   $word.length.times { $build_word.push("_") }
+  return $word
 end
 
-# Method to start game
-def start_game()
-  initialize_word()
-  clear_screen()
-  user_input()
+def current_word()
+  current = $build_word.join(" ")
+end
+
+def guessed_letters()
+  guessed = $bucket.join(" ")
+end
+
+def wrong_letters()
+  wrong = $wrong_count.join(" ")
 end
 
 # Method that acts as primary starting/return point for other methods
-def user_input()
-  score()  # display the cumulative score
+def user_input(letter)
   hangman($wrong_count.length)  # display the current progressive hangman "image" based on wrong guesses
   letters()  # display the correctly guessed letters and placeholders
-  print "  Please enter a letter: "  # prompt the user for a letter
-  letter = gets.chomp  # assign the letter to a variable
   good_letter(letter)  # pass the user-specified letter to good_letter()
 end
 
 # Method that checks the user-specified letter for a few things
 def good_letter(letter)
-  clear_screen()  # Clear the screen
   if $bucket.include? letter  # check to see if letter has already been guessed and reprompt if so
     puts "  You already guessed that one - TRY AGAIN!"
     user_input()
@@ -143,246 +119,41 @@ def wrong_letter(letter)
     user_input()  # run user_input() again
   else  # if this is the tenth wrong letter, it's game over
     $games_lost += 1  # so increase the games_lost score by 1
-    loser(5)  # and start loser() on frame 1 (animation count 5)
+    loser()  # and start loser() on frame 1 (animation count 5)
   end
 end
 
 # Method to progressively draw the hangman stages as incorrect letters are guessed
 def hangman(count)
   if count == 0
-    margin(12)
+    image = "wrong_0"
   elsif count == 1
-    margin(8)
-    puts "   _________"
-    margin(3)
+    image = "wrong_1"
   elsif count == 2
-    margin(2)
-    6.times { puts "       |" }
-    puts "   ____|____"
-    margin(3)
+    image = "wrong_2"
   elsif count == 3
-    margin(1)
-    puts "        ______"
-    6.times { puts "       |" }
-    puts "   ____|____"
-    margin(3)
+    image = "wrong_3"
   elsif count == 4
-    margin(1)
-    puts "        ______"
-    2.times { puts "       |      |" }
-    4.times { puts "       |" }
-    puts "   ____|____"
-    margin(3)
+    image = "wrong_4"
   elsif count == 5
-    margin(1)
-    puts "        ______"
-    2.times { puts "       |      |" }
-    puts "       |      O"
-    3.times { puts "       |" }
-    puts "   ____|____"
-    margin(3)
+    image = "wrong_5"
   elsif count == 6
-    margin(1)
-    puts "        ______"
-    2.times { puts "       |      |" }
-    puts "       |      O"
-    puts "       |      |"
-    2.times { puts "       |" }
-    puts "   ____|____"
-    margin(3)
+    image = "wrong_6"
   elsif count == 7
-    margin(1)
-    puts "        ______"
-    2.times { puts "       |      |" }
-    puts "       |      O"
-    puts "       |     /|"
-    2.times { puts "       |" }
-    puts "   ____|____"
-    margin(3)
+    image = "wrong_7"
   elsif count == 8
-    margin(1)
-    puts "        ______"
-    2.times { puts "       |      |" }
-    puts "       |      O"
-    puts "       |     /|\\"
-    2.times { puts "       |" }
-    puts "   ____|____"
-    margin(3)
+    image = "wrong_8"
   else
-    margin(1)
-    puts "        ______"
-    2.times { puts "       |      |" }
-    puts "       |      O"
-    puts "       |     /|\\"
-    puts "       |     /"
-    puts "       |"
-    puts "   ____|____"
-    margin(3)
+    image = "wrong_9"
   end
-end
-
-# Method to return the ASCII code last key pressed, or nil if none
-def getkey()
-  if $use_stty  # if system is Unix
-    system('stty raw -echo') # use raw mode, no echo
-    character = (STDIN.read_nonblock(1).ord rescue nil)
-    system('stty -raw echo') # reset terminal mode
-    return character
-  else  # otherwise use Win32API class methods for Windows system
-    return Win32API.new('crtdll', '_kbhit', [ ], 'I').Call.zero? ? nil : Win32API.new('crtdll', '_getch', [ ], 'L').Call
-  end
-end
-
-# Method to handle endgame items (animations, start a new game, exit game) - runs after each animation frame
-def game_over(ani_count)
-  key = getkey()  # variable for last key pressed
-  clear_screen()  # Clear the screen
-  if key != nil  # check to see if a key was pressed during winner/loser animation
-    if key != 27  # if the user presses any key except Esc (27)
-      $word = $words.sample  # select a new random word
-      $bucket = []  # clear all global arrays
-      $build_word = []
-      $wrong_count = []
-      start_game()  #  and start a new game
-    elsif key == 27  # if the user presses the Esc key (27)
-      puts "Exiting game..."  # and exit the game
-      margin(1)
-    end
-  elsif ani_count < 5  # if no keypress and animation count < 5
-    winner(ani_count)  # run winner() with the current animation count
-  else  # if no keypress and animation count >= 5
-    loser(ani_count)  # run loser() with the current animation count
-  end
-end
-
-# Method to print repetitive congratulations text in winner() animation
-def congratulations()
-  margin(2)
-  puts "       ---CONGRATULATIONS---"
-  margin(1)
-  puts "        YOU WON THE GAME!!!"
-  margin(2)
 end
 
 # Method to display winner() animation
 def winner(ani_count)
-  if ani_count == 1  # winner animation frame 1
-    score()
-    congratulations()
-    puts "   \\O/    \\O_  \\O/  _O/    \\O/ "
-    puts "    |    _/     |     \\_    |  "
-    puts "   / \\    |    / \\    |    / \\ "
-    margin(2)
-    letters()
-    puts " - Press any key to play again or Esc to quit -"
-    sleep(0.5)  # wait 1/2 second for smooth animation
-    game_over(2)  # run the game_over function to see if user has pressed a key
-  elsif ani_count == 2  # winner animation frame 2
-    score()
-    congratulations()
-    puts "    \\O_  \\O/  _O/    \\O/    \\O_ "
-    puts "   _/     |     \\_    |    _/   "
-    puts "    |    / \\    |    / \\    |   "
-    margin(2)
-    letters()
-    puts " \\ Press any key to play again or Esc to quit \\"
-    sleep(0.5)
-    game_over(3)
-  elsif ani_count == 3  # winner animation frame 3
-    score()
-    congratulations()
-    puts "   \\O/  _O/    \\O/    \\O_  \\O/ "
-    puts "    |     \\_    |    _/     |  "
-    puts "   / \\    |    / \\    |    / \\ "
-    margin(2)
-    letters()
-    puts " | Press any key to play again or Esc to quit |"
-    sleep(0.5)
-    game_over(4)
-  else  # winner animation frame 4
-    score()
-    congratulations()
-    puts "  _O/    \\O/    \\O_  \\O/  _O/  "
-    puts "    \\_    |    _/     |     \\_ "
-    puts "    |    / \\    |    / \\    |  "
-    margin(2)
-    letters()
-    puts " / Press any key to play again or Esc to quit /"
-    sleep(0.5)
-    game_over(1)
-  end
-end
-
-# Method to print repetitive game over text in loser() animation
-def sorry()
-  margin(1)
-  puts "  SORRY - GAME OVER!"
-  margin(1)
+  image = "winner"
 end
 
 # Method to display loser() animation
 def loser(ani_count)
-  if ani_count == 5  #loser animation frame 1
-    score()
-    margin(1)
-    puts "        ______"
-    2.times { puts "       |      |" }
-    puts "       |      O"
-    puts "       |     /|\\"
-    puts "       |     / \\"
-    puts "       |"
-    puts "   ____|____"
-    sorry()
-    letters()
-    puts " - Press any key to play again or Esc to quit -"
-    sleep(0.5)
-    game_over(6)  # run the game_over function to see if user has pressed a key
-  elsif ani_count == 6  #loser animation frame 2
-    score()
-    margin(1)
-    puts "        ______"
-    2.times { puts "       |      |" }
-    puts "       |     _O_"
-    puts "       |      |"
-    puts "       |     / \\"
-    puts "       |"
-    puts "   ____|____"
-    sorry()
-    letters()
-    puts " \\ Press any key to play again or Esc to quit \\"
-    sleep(0.5)
-    game_over(7)
-  elsif ani_count == 7  #loser animation frame 3
-    score()
-    margin(1)
-    puts "        ______"
-    2.times { puts "       |      |" }
-    puts "       |     \\O/"
-    puts "       |      |"
-    puts "       |     / \\"
-    puts "       |"
-    puts "   ____|____"
-    sorry()
-    letters()
-    puts " | Press any key to play again or Esc to quit |"
-    sleep(0.5)
-    game_over(8)
-  else  # loser animation frame 4
-    score()
-    margin(1)
-    puts "        ______"
-    2.times { puts "       |      |" }
-    puts "       |     _O_"
-    puts "       |      |"
-    puts "       |     / \\"
-    puts "       |"
-    puts "   ____|____"
-    sorry()
-    letters()
-    puts " / Press any key to play again or Esc to quit /"
-    sleep(0.5)
-    game_over(5)
-  end
+  image = "loser"
 end
-
-start_game()  # Comment out for testing

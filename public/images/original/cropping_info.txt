@@ -1,0 +1,4 @@
+Cropping info
+
+Position	18	116
+Size		320	200

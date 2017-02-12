@@ -1,0 +1,44 @@
+/*
+/public/styles.css
+- CSS styles for Hangman app
+*/
+
+body {
+  background-color: #eee9e9;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+div {
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 36px;
+  text-align: center;
+  color: #808080;
+}
+
+form {
+  text-align: right;
+}
+
+img {
+  padding: 1px;
+  border: 1px solid #c5c4c4;
+  background-color: #eee9e9;
+}
+
+.row {
+  display: table;
+  border-spacing: 20px;
+}
+
+.column {
+  display: table-cell;
+  vertical-align: top;
+}
+
+td {
+  border: 1px solid #c5c4c4;
+  padding: 10px;
+}
