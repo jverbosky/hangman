@@ -21,6 +21,7 @@ $words = ["research", "persistence", "dedication", "curiosity", "troubleshoot", 
           "teamwork", "collaboration", "optimistic", "focused", "meticulous", "effective", "inspired"]
 
 $word = ""  # initialize string for mystery word
+$prompt = ""  # initialize string for feedback after guessing a letter
 $bucket = []  # array to hold all letters that have been entered to guess
 $build_word = []  # array to hold guessed letters that are found in mystery word
 $wrong_count = []  # array to hold guessed letters that are not found in mystery word
@@ -58,6 +59,10 @@ end
 
 def wrong_count()
   return $wrong_count.length
+end
+
+def feedback()
+  return $prompt
 end
 
 # Method that checks the user-specified letter for a few things
@@ -104,21 +109,24 @@ end
 def word_test()
   if $build_word.join == $word  # if $build_word equals $word, the user won
     $games_won += 1  # so increase the games_won score by 1
-    winner(1)  # and start winner() on frame 1 (animation count 1)
+    $prompt = "Congratulations - you guessed the word!"
   else  # if they don't match, run user_input() for another letter
-    puts "Please guess again"
+    $prompt = "Good job - that letter was in the word. Please guess again!"
   end
+  return $prompt
 end
 
 # Method that receives non-mystery word letter and adds it to the wrong_count array
 def wrong_letter(letter)
   if $wrong_count.length < 9  # if the wrong_count list has less than 9 letters
     $wrong_count.push(letter)  # then add the letter to the list
-    puts "Please guess again"
+    $prompt = "Sorry - that letter was not in the word. Please try again!"
   else  # if this is the tenth wrong letter, it's game over
+    $wrong_count.push(letter)  # then add the letter to the list
     $games_lost += 1  # so increase the games_lost score by 1
-    loser()  # and start loser() on frame 1 (animation count 5)
+    $prompt = "Sorry, you lost!"
   end
+  return $prompt
 end
 
 # Method to progressively draw the hangman stages as incorrect letters are guessed

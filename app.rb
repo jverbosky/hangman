@@ -26,6 +26,7 @@ post '/guess' do  # route that accesses input from form's post > action (line 24
   @bad_letters = wrong_letters()
   @wrong = wrong_count()
   @image = hangman(@wrong)
+  @feedback = feedback()
   # @status = is_too_small?(@num)  # ISBN validation status after evaluation via isbn_check.rb
   # @result = @status ? "Congratulations!" : "Sorry..."  # conditional text
   # @valid = @status ? "a valid ISBN number." : "not a valid ISBN number."  # more conditional text
