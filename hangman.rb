@@ -20,7 +20,7 @@ $words = ["research", "persistence", "dedication", "curiosity", "troubleshoot", 
           "communication", "development", "loyalty", "adaptable", "creativity", "improvement", "dependable",
           "teamwork", "collaboration", "optimistic", "focused", "meticulous", "effective", "inspired"]
 
-$word = $words.sample  # select a random word from the words array
+$word = ""  # initialize string for mystery word
 $bucket = []  # array to hold all letters that have been entered to guess
 $build_word = []  # array to hold guessed letters that are found in mystery word
 $wrong_count = []  # array to hold guessed letters that are not found in mystery word
@@ -37,7 +37,10 @@ $games_lost = 0  # counter for games lost
 
 # Method to initialize $build_word array with an underscore for every letter in $word
 def initialize_word()
-  $word.length.times { $build_word.push("_") }
+  if $word == ""
+    $word = $words.sample  # select a random word from the words array
+    $word.length.times { $build_word.push("_") }
+  end
   return $word
 end
 

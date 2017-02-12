@@ -18,15 +18,14 @@
   <section>
 
     <div>
-      <p>Mystery word: <%= @word %></p>
       <p>Current word: <%= @current %></p>
       <p>Guessed letters: <%= @guessed %></p>
     </div>
 
-<!--     <div class="row">
+    <div class="row">
       <div class="column">
         <div>
-          <img src="/images/i.png" alt="Whoops - image failed to load...">
+          <img src="/images/wrong_1.png" alt="Whoops - image failed to load...">
         </div>
       </div>
       <div class="column">
@@ -38,7 +37,7 @@
           </form>
         </div>
       </div>
-    </div> -->
+    </div>
     <%= yield %>  <!-- load unique content from other .erb files -->
 <!--     <div class="row">
       <h3>Reference ISBN Numbers</h3>

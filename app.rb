@@ -10,7 +10,8 @@ get '/' do  # route to load the ISBN Validator page
   @word = initialize_word()
   @current = current_word()
   @guessed = guessed_letters()
-  erb :play  # load play.erb file (mainly a placeholder, populated via layout.erb)
+  @wrong = 0
+  erb :start  # load play.erb file (mainly a placeholder, populated via layout.erb)
 end
 
 # post '/guess' do  # route that accesses input from form's post > action (line 24 of layout.erb)
