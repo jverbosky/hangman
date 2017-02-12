@@ -60,24 +60,15 @@ def wrong_count()
   return $wrong_count.length
 end
 
-# Method that acts as primary starting/return point for other methods
-def user_input(letter)
-  hangman($wrong_count.length)  # display the current progressive hangman "image" based on wrong guesses
-  letters()  # display the correctly guessed letters and placeholders
-  good_letter(letter)  # pass the user-specified letter to good_letter()
-end
-
 # Method that checks the user-specified letter for a few things
 def good_letter(letter)
   if $bucket.include? letter  # check to see if letter has already been guessed and reprompt if so
-    puts "  You already guessed that one - TRY AGAIN!"
-    user_input()
+    puts "You already guessed that one - TRY AGAIN!"
   elsif letter[/[a-zA-Z]+/] and letter.length == 1  # check is a single -letter- has been entered
     $bucket.push(letter)  # if so, add it to the bucket list
     letter_test(letter)  # then pass it to letter_test()
   else  # if multiple letters, non-alpha characters or nothing has been entered
-    puts "  Enter a single letter - TRY AGAIN!"  # reprompt user to try again
-    user_input()
+    puts "Enter a single letter - TRY AGAIN!"  # reprompt user to try again
   end
 end
 
@@ -85,7 +76,7 @@ end
 def letter_test(letter)
   # If it is in the word pass it to find_locations(), if not pass it to wrong_letter()
   $word.include?(letter) ? find_locations(letter) : wrong_letter(letter)
-  # $word.include?(letter)  # use for testing
+
 end
 
 # Method that finds all locations of a letter in the word
@@ -115,7 +106,7 @@ def word_test()
     $games_won += 1  # so increase the games_won score by 1
     winner(1)  # and start winner() on frame 1 (animation count 1)
   else  # if they don't match, run user_input() for another letter
-    user_input()
+    puts "Please guess again"
   end
 end
 
@@ -123,7 +114,7 @@ end
 def wrong_letter(letter)
   if $wrong_count.length < 9  # if the wrong_count list has less than 9 letters
     $wrong_count.push(letter)  # then add the letter to the list
-    user_input()  # run user_input() again
+    puts "Please guess again"
   else  # if this is the tenth wrong letter, it's game over
     $games_lost += 1  # so increase the games_lost score by 1
     loser()  # and start loser() on frame 1 (animation count 5)
