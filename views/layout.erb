@@ -16,31 +16,19 @@
     <h1><%= @title %></h1>   <!-- instance variable for title -->
   </header>
   <section>
-
-    <div>
+    <div class="row">
+      <div>
+        <img src=<%= @image %> alt="Whoops - image failed to load...">
+      </div>
+    </div>
+    <%= yield %>  <!-- load unique content from other .erb files -->
+    <div class="row">
       <p>Current word: <%= @current %></p>
       <p>Guessed letters: <%= @guessed %></p>
       <p>Wrong letters: <%= @bad_letters %></p>
       <p>Wrong count: <%= @wrong %></p>
+      <p>Mystery word: <%= @word %></p>
     </div>
-
-    <div class="row">
-      <div class="column">
-        <div>
-          <img src=<%= @image %> alt="Whoops - image failed to load...">
-        </div>
-      </div>
-      <div class="column">
-        <div>
-          <h3>Please submit a letter to guess:</h3>
-          <form method="post" action="guess">  <!-- action ~ "post '/guess' do" in app.rb -->
-            <input type="text" name="letter">  <!-- text == string, name ~ "@num = params[:letter]" in app.rb -->
-            <input type="submit">  <!-- button to submit form data -->
-          </form>
-        </div>
-      </div>
-    </div>
-    <%= yield %>  <!-- load unique content from other .erb files -->
 <!--     <div class="row">
       <h3>Reference ISBN Numbers</h3>
       <div class="red-background">

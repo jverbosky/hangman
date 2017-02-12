@@ -3,11 +3,15 @@
 - called by "get '/' do" in app.rb
 - mainly a placeholder, root page populated via layout.erb for reuse
  -->
-<div>
-  <p><%= @feedback %>
+
+<div class="row">
+  <h3>Please submit a letter to guess:</h3>
+  <form method="post" action="guess">  <!-- action ~ "post '/guess' do" in app.rb -->
+    <input type="text" name="letter">  <!-- text == string, name ~ "@num = params[:letter]" in app.rb -->
+    <input type="submit">  <!-- button to submit form data -->
+  </form>
 </div>
 
-
-<div>
-  <p>Mystery word: <%= @word %></p>
+<div class="row">
+  <p><%= @feedback %>
 </div>

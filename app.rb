@@ -30,5 +30,20 @@ post '/guess' do  # route that accesses input from form's post > action (line 24
   # @status = is_too_small?(@num)  # ISBN validation status after evaluation via isbn_check.rb
   # @result = @status ? "Congratulations!" : "Sorry..."  # conditional text
   # @valid = @status ? "a valid ISBN number." : "not a valid ISBN number."  # more conditional text
-  erb :play  # load play.erb file with letter results output
+  
+  # Need to add logic for winning - currently researching how to access global variables from program
+
+  if @wrong < 10
+    erb :play
+  else
+    erb :loser
+  end
 end
+
+# get '/loser' do
+#   erb :loser, :layout => :loser_layout
+# end
+
+# get '/winner' do
+#   erb :loser, :layout => :loser_layout
+# end
