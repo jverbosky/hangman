@@ -27,6 +27,7 @@ $build_word = []  # array to hold guessed letters that are found in mystery word
 $wrong_count = []  # array to hold guessed letters that are not found in mystery word
 $games_won = 0  # counter for games won
 $games_lost = 0  # counter for games lost
+$game_won = ""
 
 # # Method to display guessed letters
 # def letters()
@@ -37,8 +38,13 @@ $games_lost = 0  # counter for games lost
 # end
 
 # Method to initialize $build_word array with an underscore for every letter in $word
-def initialize_word()
+def start_game()
   if $word == ""
+    $word = $words.sample  # select a random word from the words array
+    $word.length.times { $build_word.push("_") }
+  end
+  if game_won?()
+    $game_won == ""
     $word = $words.sample  # select a random word from the words array
     $word.length.times { $build_word.push("_") }
   end
@@ -58,11 +64,15 @@ def wrong_letters()
 end
 
 def wrong_count()
-  return $wrong_count.length
+  $game_won == "yes" ? 11 : $wrong_count.length
 end
 
 def feedback()
   return $prompt
+end
+
+def game_won?()
+  $build_word.join == $word
 end
 
 # Method that checks the user-specified letter for a few things
@@ -108,6 +118,7 @@ end
 # Method to compare the current build_word array against the mystery word
 def word_test()
   if $build_word.join == $word  # if $build_word equals $word, the user won
+    $game_won = "yes"
     $games_won += 1  # so increase the games_won score by 1
     $prompt = "Congratulations - you guessed the word!"
   else  # if they don't match, run user_input() for another letter
@@ -151,18 +162,9 @@ def hangman(count)
     image = "/images/wrong_8.png"
   elsif count == 9
     image = "/images/wrong_9.png"
-  else
+  elsif count == 10
     image = "/images/loser.gif"
+  elsif count == 11
+    image = "/images/winner.gif"
   end
-  #return image
-end
-
-# Method to display winner() animation
-def winner()
-  image = "winner"
-end
-
-# Method to display loser() animation
-def loser()
-  image = "/images/loser.gif"
 end
