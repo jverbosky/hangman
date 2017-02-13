@@ -10,7 +10,7 @@ require 'sinatra'
 require 'sinatra/reloader' if development?  # automatically reload app.rb on save via sinatra-contrib gem
 require_relative 'hangman.rb'  # load Ruby script (same directory)
 
-get '/' do  # route to load the ISBN Validator page
+get '/' do  # route to load the initial hangman page
   @start = start_game()  # necessary to start the game, won't run if method called by itself
   @image = hangman(wrong_count())  # use incorrect guess count to load correct image
   @current = current_word()  # placeholder underscores and correct letters as guessed
