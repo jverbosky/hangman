@@ -9,11 +9,6 @@
 # - ability to start a new game or exit after win/loss                        #
 # - cumulative score                                                          #
 ###############################################################################
-# Note:                                                                       #
-# - runs correctly on Windows x86, Mac and Linux                              #
-# - does not work correctly on Windows with 64-bit Ruby                       #
-#   - run with 32-bit Ruby on 64-bit Windows (see notes)                      #
-###############################################################################
 
 # array of mystery words
 $words = ["research", "persistence", "dedication", "curiosity", "troubleshoot", "energetic", "organization",
@@ -27,16 +22,8 @@ $build_word = []  # array to hold guessed letters that are found in mystery word
 $wrong_count = []  # array to hold guessed letters that are not found in mystery word
 $games_won = 0  # counter for games won
 $games_lost = 0  # counter for games lost
-$game_over = false
-$game_won = false
-
-# # Method to display guessed letters
-# def letters()
-#   puts "  Word:     " + $build_word.join(" ")  # display the correctly guessed letters and placeholders
-#   margin(1)
-#   puts "  Letters:  " + $bucket.join(" ")  # display all of the guessed letters
-#   margin(2)
-# end
+$game_over = false  # a flag to indicate whether the game is over, used to drive start_game()
+$game_won = false  # a flag to indicate whether the game was won, used by wrong_count() for images
 
 # Method to initialize $build_word array with an underscore for every letter in $word
 def start_game()
@@ -56,42 +43,37 @@ def start_game()
   return $word
 end
 
-def mystery_word()
-  $word
-end
-
+# Method to display the current mystery word
 def current_word()
-  current = $build_word.join(" ")
+  current = $build_word.join(" ")  # reurn a string of placeholder underscores + correctly guessed letters
 end
 
+# Method to display the current guessed letters
 def guessed_letters()
-  guessed = $bucket.join(" ")
+  guessed = $bucket.join(" ")  # return a string of guessed letters
 end
 
-def wrong_letters()
-  wrong = $wrong_count.join(" ")
-end
-
+# Method to determine which image count should be passed to hangman()
 def wrong_count()
-  $game_won == true ? 11 : $wrong_count.length
+  $game_won == true ? 11 : $wrong_count.length  # if the user won use 11, otherwise use the number of wrong letters
 end
 
+# Method to provide feedback on letter submitted by user
 def feedback()
-  return $prompt
+  return $prompt  # $prompt is conditionally populated by good_letter(), word_test() and wrong_letter()
 end
 
+# Method to return the game status for conditionally displaying the correct view (play.erb, endgame.erb)
 def game_over?()
-  $game_over == true
+  $game_over == true  # if true, the endgame.erb will be used which removes the form and enables a new game
 end
 
-def game_won?()
-  $game_won == true
-end
-
+# Method to return the number of games won for displaying a running total
 def games_won()
   $games_won
 end
 
+# Method to return the number of games lost for displaying a running total
 def games_lost()
   $games_lost
 end
@@ -101,7 +83,7 @@ def good_letter(letter)
   if $bucket.include? letter  # check to see if letter has already been guessed and reprompt if so
     $prompt = "You already guessed that one - TRY AGAIN!"
   elsif letter[/[a-zA-Z]+/] and letter.length == 1  # check is a single -letter- has been entered
-    $bucket.push(letter)  # if so, add it to the bucket list
+    $bucket.push(letter)  # if so, add it to the bucket array
     letter_test(letter)  # then pass it to letter_test()
   else  # if multiple letters, non-alpha characters or nothing has been entered
     $prompt = "Enter a single letter - TRY AGAIN!"  # reprompt user to try again
@@ -112,7 +94,6 @@ end
 def letter_test(letter)
   # If it is in the word pass it to find_locations(), if not pass it to wrong_letter()
   $word.include?(letter) ? find_locations(letter) : wrong_letter(letter)
-
 end
 
 # Method that finds all locations of a letter in the word
@@ -139,28 +120,24 @@ end
 # Method to compare the current build_word array against the mystery word
 def word_test()
   if $build_word.join == $word  # if $build_word equals $word, the user won
-    $game_over = true
-    $game_won = true
+    $game_over = true  # set the flag to indicate that the game is over
+    $game_won = true  # set the flag to indicate that the player won the game
     $games_won += 1  # so increase the games_won score by 1
-    $prompt = "Congratulations - you guessed the word!"
   else  # if they don't match, run user_input() for another letter
     $prompt = "Good job - that letter was in the word. Please guess again!"
   end
-  return $prompt
 end
 
 # Method that receives non-mystery word letter and adds it to the wrong_count array
 def wrong_letter(letter)
-  if $wrong_count.length < 9  # if the wrong_count list has less than 9 letters
-    $wrong_count.push(letter)  # then add the letter to the list
+  if $wrong_count.length < 9  # if the wrong_count array has less than 9 letters
+    $wrong_count.push(letter)  # then add the letter to the array
     $prompt = "Sorry - that letter was not in the word. Please try again!"
   else  # if this is the tenth wrong letter, it's game over
-    $wrong_count.push(letter)  # then add the letter to the list
-    $game_over = true
-    $games_lost += 1  # so increase the games_lost score by 1
-    $prompt = "Sorry, you lost!"
+    $wrong_count.push(letter)  # then add the letter to the array
+    $game_over = true  # set the flag to indicate that the game is over
+    $games_lost += 1  # increase the games_lost score by 1
   end
-  return $prompt
 end
 
 # Method to progressively draw the hangman stages as incorrect letters are guessed
