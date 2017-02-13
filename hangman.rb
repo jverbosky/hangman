@@ -1,8 +1,10 @@
 ###############################################################################
 ### Very basic hangman game inspired by TechHire interview with Mined Minds ###
 ###############################################################################
-######################## Rewritten in Ruby (2017-02-07) #######################
+###################### Rewritten for Sinatra (2017-02-13) #####################
 #############################  by John C. Verbosky ############################
+###############################################################################
+
 ###############################################################################
 # Features:                                                                   #
 # - animations for winning and losing                                         #
@@ -10,75 +12,86 @@
 # - cumulative score                                                          #
 ###############################################################################
 
+###############################################################################
+#################### Variables, arrays, counters and flags ####################
+###############################################################################
+
 # array of mystery words
 $words = ["research", "persistence", "dedication", "curiosity", "troubleshoot", "energetic", "organization",
           "communication", "development", "loyalty", "adaptable", "creativity", "improvement", "dependable",
           "teamwork", "collaboration", "optimistic", "focused", "meticulous", "effective", "inspired"]
 
-$word = ""  # initialize string for mystery word
-$prompt = ""  # initialize string for feedback after guessing a letter
+$word = ""  # string for mystery word
+$prompt = ""  # string for feedback after guessing a letter
 $bucket = []  # array to hold all letters that have been entered to guess
 $build_word = []  # array to hold guessed letters that are found in mystery word
 $wrong_count = []  # array to hold guessed letters that are not found in mystery word
-$games_won = 0  # counter for games won
-$games_lost = 0  # counter for games lost
-$game_over = false  # a flag to indicate whether the game is over, used to drive start_game()
-$game_won = false  # a flag to indicate whether the game was won, used by wrong_count() for images
+$games_won = 0  # counter for displaying cumulative number of games won
+$games_lost = 0  # counter for displaying cumulative number of games lost
+$game_over = false  # flag to indicate whether the game is over, used to drive start_game()
+$game_won = false  # flag to indicate whether the game was won, used by wrong_count() for images
 
-# Method to initialize $build_word array with an underscore for every letter in $word
+###############################################################################
+######################## Method for starting a new game #######################
+###############################################################################
+
+# Method to initialize game status flags, letter arrays and mystery word
 def start_game()
-  if $word == ""
-    $word = $words.sample  # select a random word from the words array
-    $word.length.times { $build_word.push("_") }
-  end
-  if game_over?()
-    $game_over = false
-    $game_won = false
-    $bucket = []
-    $build_word = []
-    $wrong_count = []
-    $word = $words.sample  # select a random word from the words array
-    $word.length.times { $build_word.push("_") }
-  end
-  return $word
+  $game_over = false  # set flag to false when starting a new game
+  $game_won = false  # set flag to false when starting a new game
+  $bucket = []  # empty array when starting a new game
+  $build_word = []  # empty array when starting a new game
+  $wrong_count = []  # empty array when starting a new game
+  $word = $words.sample  # select a random word from the words array
+  $word.length.times { $build_word.push("_") }  # push placeholder underscores to $build_word array
 end
 
+###############################################################################
+##################### Methods for passing values to app.rb ####################
+###############################################################################
+
 # Method to display the current mystery word
+# Corresponds to @current in app.rb
 def current_word()
-  current = $build_word.join(" ")  # reurn a string of placeholder underscores + correctly guessed letters
+  current = $build_word.join(" ")  # return a string of placeholder underscores + correctly guessed letters
 end
 
 # Method to display the current guessed letters
+# Corresponds to @guessed in app.rb
 def guessed_letters()
   guessed = $bucket.join(" ")  # return a string of guessed letters
 end
 
-# Method to determine which image count should be passed to hangman()
-def wrong_count()
-  $game_won == true ? 11 : $wrong_count.length  # if the user won use 11, otherwise use the number of wrong letters
-end
-
 # Method to provide feedback on letter submitted by user
+# Corresponds to @feedback in app.rb
 def feedback()
   return $prompt  # $prompt is conditionally populated by good_letter(), word_test() and wrong_letter()
 end
 
 # Method to return the game status for conditionally displaying the correct view (play.erb, endgame.erb)
+# Used by "post '/guess' do" route in app.rb
 def game_over?()
   $game_over == true  # if true, the endgame.erb will be used which removes the form and enables a new game
 end
 
 # Method to return the number of games won for displaying a running total
+# Corresponds to @won in app.rb
 def games_won()
   $games_won
 end
 
 # Method to return the number of games lost for displaying a running total
+# Corresponds to @lost in app.rb
 def games_lost()
   $games_lost
 end
 
+###############################################################################
+####################### Methods for testing each letter #######################
+###############################################################################
+
 # Method that checks the user-specified letter for a few things
+# Used by @test in "post '/guess' do" route in app.rb
 def good_letter(letter)
   if $bucket.include? letter  # check to see if letter has already been guessed and reprompt if so
     $prompt = "You already guessed that one - TRY AGAIN!"
@@ -140,31 +153,35 @@ def wrong_letter(letter)
   end
 end
 
+###############################################################################
+#################### Methods for displaying hangman images ####################
+###############################################################################
+
+# Method to determine which image count should be passed to hangman()
+# Used as hangman() argument by @image in app.rb
+def wrong_count()
+  $game_won == true ? 11 : $wrong_count.length  # if the user won use 11, otherwise use the number of wrong letters
+end
+
 # Method to progressively draw the hangman stages as incorrect letters are guessed
+# Used by @image in app.rb
 def hangman(count)
-  if count == 0
-    image = "/images/wrong_0.png"
-  elsif count == 1
-    image = "/images/wrong_1.png"
-  elsif count == 2
-    image = "/images/wrong_2.png"
-  elsif count == 3
-    image = "/images/wrong_3.png"
-  elsif count == 4
-    image = "/images/wrong_4.png"
-  elsif count == 5
-    image = "/images/wrong_5.png"
-  elsif count == 6
-    image = "/images/wrong_6.png"
-  elsif count == 7
-    image = "/images/wrong_7.png"
-  elsif count == 8
-    image = "/images/wrong_8.png"
-  elsif count == 9
-    image = "/images/wrong_9.png"
-  elsif count == 10
-    image = "/images/loser.gif"
-  elsif count == 11
-    image = "/images/winner.gif"
+  case count
+    when 0 then image = "/images/wrong_0.png"
+    when 1 then image = "/images/wrong_1.png"
+    when 2 then image = "/images/wrong_2.png"
+    when 3 then image = "/images/wrong_3.png"
+    when 4 then image = "/images/wrong_4.png"
+    when 5 then image = "/images/wrong_5.png"
+    when 6 then image = "/images/wrong_6.png"
+    when 7 then image = "/images/wrong_7.png"
+    when 8 then image = "/images/wrong_8.png"
+    when 9 then image = "/images/wrong_9.png"
+    when 10 then image = "/images/loser.gif"
+    when 11 then image = "/images/winner.gif"
   end
 end
+
+###############################################################################
+##################################### End #####################################
+###############################################################################
