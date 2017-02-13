@@ -3,9 +3,14 @@
 - CSS styles for Hangman app
 */
 
+input {
+  font-family: Courier;
+}
+
 body {
-  background-color: #eee9e9;
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  background-color: #000000;
+  font-family: Courier;
+  color: #ffffff;
 }
 
 div {
@@ -13,9 +18,7 @@ div {
 }
 
 h1 {
-  font-size: 36px;
   text-align: center;
-  color: #808080;
 }
 
 form {
@@ -24,13 +27,13 @@ form {
 
 img {
   padding: 1px;
-  border: 1px solid #c5c4c4;
-  background-color: #eee9e9;
+/*  border: 1px solid #c5c4c4;
+  background-color: #eee9e9;*/
 }
 
 .row {
   display: table;
-  border-spacing: 20px;
+  /*border-spacing: 20px;*/
 }
 
 .column {

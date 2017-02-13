@@ -13,25 +13,26 @@
   </head>
   <body>
   <header>
-    <div class="row">
-      <table>
-        <tr>
-          <td style="font-size: 24px; vertical-align: middle"><b>Score</b></td>
-          <td><b>Won: <%= @won %></b></td>
-          <td><b>Lost: <%= @lost %></b></td>
-        </tr>
-      </table>
-    </div>
+    <h1>Hangman</h1>
   </header>
   <section>
+    <div class="row">
+      <p>
+        <b>Score</b><br>
+        -----<br>
+        <b>Won:</b> <%= @won %>     <b>Lost:</b> <%= @lost %>
+      </p>
+    </div>
     <div class="row">
       <div>
         <img src=<%= @image %> alt="Whoops - image failed to load...">
       </div>
     </div>
     <div class="row">
-      <p>Word: <%= @current %></p>
-      <p>Letters: <%= @guessed %></p>
+      <p>
+        <b>Word:</b> <%= @current %><br><br>
+        <b>Letters:</b> <%= @guessed %>
+      </p>
     </div>
     <%= yield %>  <!-- load unique content from other .erb files -->
     <div class="row">
