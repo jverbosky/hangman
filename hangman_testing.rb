@@ -42,7 +42,7 @@ def start_game()
   $bucket = []  # empty array when starting a new game
   $build_word = []  # empty array when starting a new game
   $wrong_count = []  # empty array when starting a new game
-  $word = $words.sample  # select a random word from the words array
+  #$word = $words.sample  # select a random word from the words array
   $word.length.times { $build_word.push("_") }  # push placeholder underscores to $build_word array
 end
 
