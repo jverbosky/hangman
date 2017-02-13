@@ -1,17 +1,17 @@
 <!--
-/views/start.erb
-- called by "get '/' do" in app.rb
-- mainly a placeholder, root page populated via layout.erb for reuse
+/views/play.erb
+- called by "post '/guess' do" in app.rb when game is in progress
+- provides form for entering letter and feedback on letter
  -->
 
 <div class="row">
-  <h3>Please submit a letter to guess:</h3>
+  <h3>Please enter a letter:</h3>
   <form method="post" action="guess">  <!-- action ~ "post '/guess' do" in app.rb -->
     <input type="text" name="letter">  <!-- text == string, name ~ "@num = params[:letter]" in app.rb -->
-    <input type="submit">  <!-- button to submit form data -->
+    <input type="submit" value="Enter">  <!-- button to submit letter to "post '/guess' do" route for evaluation -->
   </form>
 </div>
 
-<!-- <div class="row">
-  <p><%= @feedback %>
-</div> -->
+<div class="row">
+  <p><%= @feedback %>  <!-- indicates if letter is invalid, incorrect or correct -->
+</div>

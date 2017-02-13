@@ -35,10 +35,9 @@ img {
 
 .column {
   display: table-cell;
-  vertical-align: top;
+  vertical-align: bottom;
 }
 
 td {
-  border: 1px solid #c5c4c4;
   padding: 10px;
 }
