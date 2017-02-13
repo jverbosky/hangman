@@ -3,7 +3,8 @@
 <div class="row">
   <h2>GAME OVER</h2>
   <p><%= @feedback %></p>
-  <form action="../">
+  <form method="post" action="new">
+<!--       <input type="hidden" name="new" value="<%= @new %>" /> -->
       <input type="submit" value="Play Again" />
   </form>
 </div>

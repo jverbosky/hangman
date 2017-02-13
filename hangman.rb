@@ -27,7 +27,8 @@ $build_word = []  # array to hold guessed letters that are found in mystery word
 $wrong_count = []  # array to hold guessed letters that are not found in mystery word
 $games_won = 0  # counter for games won
 $games_lost = 0  # counter for games lost
-$game_won = ""
+$game_over = false
+$game_won = false
 
 # # Method to display guessed letters
 # def letters()
@@ -43,12 +44,20 @@ def start_game()
     $word = $words.sample  # select a random word from the words array
     $word.length.times { $build_word.push("_") }
   end
-  if game_won?()
-    $game_won == ""
+  if game_over?()
+    $game_over = false
+    $game_won = false
+    $bucket = []
+    $build_word = []
+    $wrong_count = []
     $word = $words.sample  # select a random word from the words array
     $word.length.times { $build_word.push("_") }
   end
   return $word
+end
+
+def mystery_word()
+  $word
 end
 
 def current_word()
@@ -64,15 +73,19 @@ def wrong_letters()
 end
 
 def wrong_count()
-  $game_won == "yes" ? 11 : $wrong_count.length
+  $game_won == true ? 11 : $wrong_count.length
 end
 
 def feedback()
   return $prompt
 end
 
+def game_over?()
+  $game_over == true
+end
+
 def game_won?()
-  $build_word.join == $word
+  $game_won == true
 end
 
 # Method that checks the user-specified letter for a few things
@@ -118,7 +131,8 @@ end
 # Method to compare the current build_word array against the mystery word
 def word_test()
   if $build_word.join == $word  # if $build_word equals $word, the user won
-    $game_won = "yes"
+    $game_over = true
+    $game_won = true
     $games_won += 1  # so increase the games_won score by 1
     $prompt = "Congratulations - you guessed the word!"
   else  # if they don't match, run user_input() for another letter
@@ -134,6 +148,7 @@ def wrong_letter(letter)
     $prompt = "Sorry - that letter was not in the word. Please try again!"
   else  # if this is the tenth wrong letter, it's game over
     $wrong_count.push(letter)  # then add the letter to the list
+    $game_over = true
     $games_lost += 1  # so increase the games_lost score by 1
     $prompt = "Sorry, you lost!"
   end

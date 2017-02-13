@@ -13,7 +13,7 @@
   </head>
   <body>
   <header>
-    <h1><%= @title %></h1>   <!-- instance variable for title -->
+    <h1>Hangman</h1>   <!-- instance variable for title -->
   </header>
   <section>
     <div class="row">
@@ -28,6 +28,8 @@
       <p>Wrong letters: <%= @bad_letters %></p>
       <p>Wrong count: <%= @wrong %></p>
       <p>Mystery word: <%= @word %></p>
+      <p>Game over? <%= @over %></p>
+      <p>Game won? <%= @won %></p>
     </div>
 <!--     <div class="row">
       <h3>Reference ISBN Numbers</h3>

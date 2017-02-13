@@ -4,12 +4,13 @@
 <div class="row">
   <h2>YOU WON</h2>
   <p><%= @feedback %></p>
-  <form action="/">
+  <form method="post" action="new">
+<!--       <input type="hidden" name="new" value="<%= @new %>" /> -->
       <input type="submit" value="Play Again" />
   </form>
 </div>
 
-<!--  Trying to create button to go back to / 
+<!--  Trying to create button to go back to /
 
 reference based on Dover's:
 <a href="../">Play again</a> -->
