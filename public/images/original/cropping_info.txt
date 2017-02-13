@@ -1,4 +1,7 @@
-Cropping info
+wrong & loser
+31	147
+149	150
 
-Position	18	116
-Size		320	200
+winner
+25	151
+300	163

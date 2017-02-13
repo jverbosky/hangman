@@ -21,26 +21,22 @@ h1 {
   text-align: center;
 }
 
-form {
-  text-align: right;
-}
-
-img {
-  padding: 1px;
-/*  border: 1px solid #c5c4c4;
-  background-color: #eee9e9;*/
+pre {
+  font-family: Courier;
 }
 
 .row {
   display: table;
-  /*border-spacing: 20px;*/
+  padding: 5px 0px 5px 0px;
 }
 
 .column {
   display: table-cell;
   vertical-align: bottom;
+  width: 425px;
 }
 
-td {
-  padding: 10px;
+.copyright {
+  position: fixed;
+  bottom: 0;
 }

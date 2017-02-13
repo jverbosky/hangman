@@ -15,13 +15,15 @@
   <header>
     <h1>Hangman</h1>
   </header>
-  <section>
+<section>
     <div class="row">
-      <p>
-        <b>Score</b><br>
-        -----<br>
-        <b>Won:</b> <%= @won %>     <b>Lost:</b> <%= @lost %>
-      </p>
+      <div class="column">
+        <pre style="text-align: left">
+Score
+-----
+Won: <%= @won %>     Lost: <%= @lost %>
+        </pre>
+      </div>
     </div>
     <div class="row">
       <div>
@@ -29,14 +31,16 @@
       </div>
     </div>
     <div class="row">
-      <p>
-        <b>Word:</b> <%= @current %><br><br>
-        <b>Letters:</b> <%= @guessed %>
-      </p>
+      <div class="column">
+        <p>
+          Word: <%= @current %><br><br>
+          Letters: <%= @guessed %>
+        </p>
+      </div>
     </div>
     <%= yield %>  <!-- load unique content from other .erb files -->
-    <div class="row">
-      <p style="position: fixed; bottom: 0; text-align: center">©2017 jverbosky</p>  <!-- copyright text -->
+    <div>
+      <p class="copyright">©2017 jverbosky</p>  <!-- copyright text -->
     </div>
   </section>
   </body>
