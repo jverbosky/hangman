@@ -3,10 +3,6 @@
 - CSS styles for Hangman app
 */
 
-input {
-  font-family: Courier;
-}
-
 body {
   background-color: #000000;
   font-family: Courier;
@@ -28,9 +24,8 @@ form {
   color: #000000;
 }
 
-.image {
-  height: 163px;
-  width:  325px;
+input {
+  font-family: Courier;
 }
 
 .center-block {
@@ -41,6 +36,11 @@ form {
 
 .padding {
   padding-top: 10px;
+}
+
+.image {
+  height: 163px;
+  width:  325px;
 }
 
 /*.copyright {
