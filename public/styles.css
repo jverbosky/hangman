@@ -25,6 +25,11 @@ pre {
   font-family: Courier;
 }
 
+.image {
+  height: 163px;
+  width:  300px;
+}
+
 .row {
   display: table;
   padding: 5px 0px 5px 0px;
