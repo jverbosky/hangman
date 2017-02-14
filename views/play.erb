@@ -15,7 +15,7 @@
 </div>
  -->
 
-<div class="row">
+<div class="padding">
   <p>Please select a letter:</p>
   <form method="post" action="guess">  <!-- action ~ "post '/guess' do" in app.rb -->
     <select type="text" name="letter">  <!-- text == string, name ~ "@num = params[:letter]" in app.rb -->
@@ -49,6 +49,6 @@
     <input type="submit" value="Submit">  <!-- button to submit letter to "post '/guess' do" route for evaluation -->
   </form>
 </div>
-<div class="row">
-  <p><%= @feedback %>  <!-- indicates if letter is invalid, incorrect or correct -->
+<div class="padding">
+  <p><%= @feedback %></p>  <!-- indicates if letter is invalid, incorrect or correct -->
 </div>

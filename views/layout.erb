@@ -8,6 +8,7 @@
   <head>
     <title>Hangman</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="/images/favicon.ico?" type="image/x-icon">  <!-- added to get favicon to load -->
   </head>
@@ -15,32 +16,38 @@
   <header>
     <h1>Hangman</h1>
   </header>
-<section>
-    <div class="row">
-      <div class="column">
-        <pre>
-Score
------
-Won: <%= @won %>     Lost: <%= @lost %>
-        </pre>
+  <section>
+    <div class="container-fluid padding">
+      <div class="center-block">
+        <div class="row">
+          <p>
+            Score<br>
+            -----<br>
+            Won: <%= @won %>&nbsp;&nbsp;&nbsp;&nbsp;Lost: <%= @lost %>
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="row">
       <div class="image">
-        <img src=<%= @image %> alt="Whoops - image failed to load...">
+        <div class="img-responsive center-block">
+          <div>
+            <img src=<%= @image %> alt="Whoops - image failed to load...">
+          </div>
+        </div>
+      </div>
+      <div class="center-block padding">
+        <div class="row">
+          <p>Word: <%= @current %></p>
+          <p>Letters: <%= @guessed %></p>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="column">
-        <p>
-          Word: <%= @current %><br><br>
-          Letters: <%= @guessed %>
-        </p>
-      </div>
-    </div>
-    <%= yield %>  <!-- load unique content from other .erb files -->
     <div>
-      <p class="copyright">©2017 jverbosky</p>  <!-- copyright text -->
+      <%= yield %>  <!-- load unique content from other .erb files -->
+    </div>
+    <div>
+      <div class="copyright">
+        <p>©2017 jverbosky</p>  <!-- copyright text -->
+      </div>
     </div>
   </section>
   </body>
