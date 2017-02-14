@@ -19,6 +19,10 @@ h1 {
   text-align: center;
 }
 
+a {
+    color: #ffffff;
+}
+
 form {
   margin-left: 25%;
   color: #000000;
@@ -43,8 +47,15 @@ input {
   width:  325px;
 }
 
-/*.copyright {
-  position: absolute;
-  bottom: 0;
-  left: 47%;
+/* Use these two classes to position copyright bottom/middle of the page*/
+/* Note - doesn't work well on mobile, research more later */
+
+/*.center {
+  text-align: center;
+}
+
+.copyright {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
 }*/
