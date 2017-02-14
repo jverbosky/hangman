@@ -25,6 +25,10 @@ pre {
   font-family: Courier;
 }
 
+form {
+  margin-left: 25%;
+}
+
 .image {
   height: 163px;
   width:  300px;
