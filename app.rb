@@ -1,9 +1,5 @@
 ####################################
-########## Hangman app v.1 #########
-####################################
-# Ideas for improvements:          #
-# - tweak image loading            #
-# - drop-down for letter selection #
+############## Hangman #############
 ####################################
 
 require 'sinatra'
