@@ -1,5 +1,3 @@
-Ruby version of hangman game that I originally wrote in Python, inspired by the TechHire interview that I had with Amanda and Jonathan from Mined Minds.
+**Hangman**
 
-Tested on Windows 7 x86, Ubuntu 14.04 (Trusty Tahr) and OS X 10.10.5 (Yosimite).
-
-2017-02-17 - jv
+This is my python hangman game re-written as a web app using Ruby, Sinatra, HTML and CSS (Bootstrap), with the UI focused on being mobile-friendly.
