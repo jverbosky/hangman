@@ -3,7 +3,7 @@
 ####################################
 
 require 'sinatra'
-require 'sinatra/reloader' if development?  # automatically reload app.rb on save via sinatra-contrib gem
+# require 'sinatra/reloader' if development?  # automatically reload app.rb on save via sinatra-contrib gem
 require_relative 'hangman.rb'  # load Ruby script (same directory)
 
 get '/' do  # route to load the initial hangman page
